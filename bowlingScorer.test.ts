@@ -70,7 +70,7 @@ const testSet11 = [
   11,
 ];
 
-const testSequence = (sequence:number[]) => {
+const testSequence = (sequence: number[]) => {
   newGame();
 
   for (let item of sequence) {
@@ -79,7 +79,7 @@ const testSequence = (sequence:number[]) => {
   return getScore();
 };
 
-const testGameFinished = (sequence:number[]) => {
+const testGameFinished = (sequence: number[]) => {
   newGame();
   for (let item of sequence) {
     throwBowl(item);
@@ -87,7 +87,7 @@ const testGameFinished = (sequence:number[]) => {
   return isGameFinished();
 };
 
-const testCurrentState = (arr:number[]) => {
+const testCurrentState = (arr: number[]) => {
   newGame();
   for (let item of arr) {
     throwBowl(item);

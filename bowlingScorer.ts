@@ -125,31 +125,31 @@ const throwBowl = (count: number) => {
     }
 
     if (isStrike(getPrevious()) && isStrike(getBeforePrevious())) {
-      getBeforePrevious().strikeBonus += count;
+      getBeforePrevious().strikeBonus! += count;
     }
+  }
 
-    if (isStrike(getPrevious()) && getCurrent()?.rolledPins.length <= 2) {
-      getPrevious().strikeBonus
-        ? (getPrevious().strikeBonus += count)
-        : (getPrevious().strikeBonus = count);
-    }
+  if (isStrike(getPrevious()) && getCurrent()?.rolledPins.length <= 2) {
+    getPrevious().strikeBonus
+      ? (getPrevious().strikeBonus! += count)
+      : (getPrevious().strikeBonus = count);
+  }
 
-    if (
-      getCurrent()?.rolledPins?.[0] > maxNumberOfPins ||
-      (getCurrent()?.rolledPins.length === 2 &&
-        ((!(isTenth && isStrike(getCurrent())) &&
-          getCurrent()?.frameScore > maxNumberOfPins) ||
-          (isStrike(getCurrent()) &&
-            getCurrent()?.frameScore > 2 * maxNumberOfPins))) ||
-      (isTenth &&
-        ((isStrike(getCurrent()) &&
-          getCurrent()?.frameScore > 3 * maxNumberOfPins) ||
-          (getCurrent().rolledPins[0] + getCurrent().rolledPins[1] ===
-            maxNumberOfPins &&
-            getCurrent()?.frameScore > 2 * maxNumberOfPins)))
-    ) {
-      throw new Error("Maximum number of pins is exceeded.");
-    }
+  if (
+    getCurrent()?.rolledPins?.[0] > maxNumberOfPins ||
+    (getCurrent()?.rolledPins.length === 2 &&
+      ((!(isTenth && isStrike(getCurrent())) &&
+        getCurrent()?.frameScore > maxNumberOfPins) ||
+        (isStrike(getCurrent()) &&
+          getCurrent()?.frameScore > 2 * maxNumberOfPins))) ||
+    (isTenth &&
+      ((isStrike(getCurrent()) &&
+        getCurrent()?.frameScore > 3 * maxNumberOfPins) ||
+        (getCurrent().rolledPins[0] + getCurrent().rolledPins[1] ===
+          maxNumberOfPins &&
+          getCurrent()?.frameScore > 2 * maxNumberOfPins)))
+  ) {
+    throw new Error("Maximum number of pins is exceeded.");
   }
 };
 
