@@ -1,16 +1,14 @@
-// const {
-//   maxNumberOfPins,
-//   VERBOSE,
-// }: { maxNumberOfPins: number; VERBOSE: boolean } = require("./config");
 import { maxNumberOfPins, VERBOSE } from "./config";
 
-let scoreTable: {
+type frame = {
   frameId: number;
   rolledPins: number[];
   frameScore: number;
   spareBonus?: number;
   strikeBonus?: number;
-}[] = [];
+};
+
+let scoreTable: frame[] = [];
 
 export const newGame = () => {
   if (VERBOSE) {
@@ -84,21 +82,11 @@ export const getBeforePrevious = () => scoreTable[scoreTable.length - 3];
 
 export const setFrameNumber = () => scoreTable.length + 1;
 
-export const isSpare = (frame: {
-  frameId: number;
-  rolledPins: number[];
-  frameScore: number;
-  spareBonus?: number;
-  strikeBonus?: number;
-}) => frame?.rolledPins.length === 2 && frame.frameScore === maxNumberOfPins;
+export const isSpare = (frame: frame) =>
+  frame?.rolledPins.length === 2 && frame.frameScore === maxNumberOfPins;
 
-export const isStrike = (frame: {
-  frameId: number;
-  rolledPins: number[];
-  frameScore: number;
-  spareBonus?: number;
-  strikeBonus?: number;
-}) => frame?.rolledPins?.[0] === maxNumberOfPins;
+export const isStrike = (frame: frame) =>
+  frame?.rolledPins?.[0] === maxNumberOfPins;
 
 export const throwBowl = (count: number) => {
   let isTenth = Boolean(scoreTable.length === 10);
@@ -113,7 +101,7 @@ export const throwBowl = (count: number) => {
     getCurrent().rolledPins.push(count);
     getCurrent().frameScore += count;
   } else {
-    let frame: { frameId: number; rolledPins: number[]; frameScore: number } = {
+    let frame: frame = {
       frameId: setFrameNumber(),
       rolledPins: [count],
       frameScore: count,
