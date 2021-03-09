@@ -1,6 +1,2 @@
-export {};
-const maxNumberOfPins:number = 10;
-const VERBOSE:boolean = false;
-
-module.exports = { maxNumberOfPins, VERBOSE };
-
+export const maxNumberOfPins: number = 10;
+export const VERBOSE: boolean = false;

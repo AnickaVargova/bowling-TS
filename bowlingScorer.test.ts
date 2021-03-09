@@ -1,12 +1,11 @@
-export {};
-const { describe, test } = require("@jest/globals");
-const {
+import { describe, test } from "@jest/globals";
+import {
   newGame,
   getCurrentState,
   getScore,
   isGameFinished,
   throwBowl,
-} = require("./bowlingScorer");
+} from "./bowlingScorer";
 
 const testSet0 = [
   5,

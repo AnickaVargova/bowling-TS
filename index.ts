@@ -1,13 +1,12 @@
 "use strict";
-export {};
-const bowlingScorer = require("./bowlingScorer");
-const {
+
+import {
   newGame,
   getCurrentState,
   getScore,
   isGameFinished,
   throwBowl,
-} = require("./bowlingScorer");
+} from "./bowlingScorer";
 
 newGame();
 

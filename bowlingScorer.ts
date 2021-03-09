@@ -1,8 +1,9 @@
-export {};
-const {
-  maxNumberOfPins,
-  VERBOSE,
-}: { maxNumberOfPins: number; VERBOSE: boolean } = require("./config");
+// const {
+//   maxNumberOfPins,
+//   VERBOSE,
+// }: { maxNumberOfPins: number; VERBOSE: boolean } = require("./config");
+import { maxNumberOfPins, VERBOSE } from "./config";
+
 let scoreTable: {
   frameId: number;
   rolledPins: number[];
@@ -11,16 +12,16 @@ let scoreTable: {
   strikeBonus?: number;
 }[] = [];
 
-const newGame = () => {
+export const newGame = () => {
   if (VERBOSE) {
     console.log("Game started.");
   }
   scoreTable = [];
 };
 
-const getCurrentState = () => scoreTable;
+export const getCurrentState = () => scoreTable;
 
-const getScore = () => {
+export const getScore = () => {
   let score = 0;
   if (scoreTable.length === 0) {
     return score;
@@ -68,22 +69,22 @@ const getScore = () => {
   return score;
 };
 
-const isGameFinished = () =>
+export const isGameFinished = () =>
   scoreTable.length === 10 &&
   ((!isSpare(getCurrent()) &&
     !isStrike(getCurrent()) &&
     getCurrent().rolledPins.length === 2) ||
     getCurrent().rolledPins.length === 3);
 
-const getCurrent = () => scoreTable[scoreTable.length - 1];
+export const getCurrent = () => scoreTable[scoreTable.length - 1];
 
-const getPrevious = () => scoreTable[scoreTable.length - 2];
+export const getPrevious = () => scoreTable[scoreTable.length - 2];
 
-const getBeforePrevious = () => scoreTable[scoreTable.length - 3];
+export const getBeforePrevious = () => scoreTable[scoreTable.length - 3];
 
-const setFrameNumber = () => scoreTable.length + 1;
+export const setFrameNumber = () => scoreTable.length + 1;
 
-const isSpare = (frame: {
+export const isSpare = (frame: {
   frameId: number;
   rolledPins: number[];
   frameScore: number;
@@ -91,7 +92,7 @@ const isSpare = (frame: {
   strikeBonus?: number;
 }) => frame?.rolledPins.length === 2 && frame.frameScore === maxNumberOfPins;
 
-const isStrike = (frame: {
+export const isStrike = (frame: {
   frameId: number;
   rolledPins: number[];
   frameScore: number;
@@ -99,7 +100,7 @@ const isStrike = (frame: {
   strikeBonus?: number;
 }) => frame?.rolledPins?.[0] === maxNumberOfPins;
 
-const throwBowl = (count: number) => {
+export const throwBowl = (count: number) => {
   let isTenth = Boolean(scoreTable.length === 10);
 
   if (isGameFinished()) {
@@ -151,12 +152,4 @@ const throwBowl = (count: number) => {
   ) {
     throw new Error("Maximum number of pins is exceeded.");
   }
-};
-
-module.exports = {
-  newGame,
-  getCurrentState,
-  getScore,
-  isGameFinished,
-  throwBowl,
 };
