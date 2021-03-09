@@ -1,6 +1,6 @@
 import { maxNumberOfPins, VERBOSE } from "./config";
 
-type frame = {
+type Frame = {
   frameId: number;
   rolledPins: number[];
   frameScore: number;
@@ -8,7 +8,7 @@ type frame = {
   strikeBonus?: number;
 };
 
-let scoreTable: frame[] = [];
+let scoreTable = [] as Frame[];
 
 export const newGame = () => {
   if (VERBOSE) {
@@ -82,10 +82,10 @@ export const getBeforePrevious = () => scoreTable[scoreTable.length - 3];
 
 export const setFrameNumber = () => scoreTable.length + 1;
 
-export const isSpare = (frame: frame) =>
+export const isSpare = (frame: Frame) =>
   frame?.rolledPins.length === 2 && frame.frameScore === maxNumberOfPins;
 
-export const isStrike = (frame: frame) =>
+export const isStrike = (frame: Frame) =>
   frame?.rolledPins?.[0] === maxNumberOfPins;
 
 export const throwBowl = (count: number) => {
@@ -101,7 +101,7 @@ export const throwBowl = (count: number) => {
     getCurrent().rolledPins.push(count);
     getCurrent().frameScore += count;
   } else {
-    let frame: frame = {
+    let frame: Frame = {
       frameId: setFrameNumber(),
       rolledPins: [count],
       frameScore: count,
@@ -113,15 +113,24 @@ export const throwBowl = (count: number) => {
       getPrevious().spareBonus = count;
     }
 
-    if (isStrike(getPrevious()) && isStrike(getBeforePrevious())) {
-      getBeforePrevious().strikeBonus! += count;
+    const beforePrev = getBeforePrevious();
+
+    if (
+      isStrike(getPrevious()) &&
+      isStrike(beforePrev) &&
+      beforePrev.strikeBonus
+    ) {
+      beforePrev.strikeBonus += count;
     }
   }
+  const prev = getPrevious();
 
-  if (isStrike(getPrevious()) && getCurrent()?.rolledPins.length <= 2) {
-    getPrevious().strikeBonus
-      ? (getPrevious().strikeBonus! += count)
-      : (getPrevious().strikeBonus = count);
+  if (isStrike(prev) && getCurrent()?.rolledPins.length <= 2) {
+    if (prev.strikeBonus) {
+      prev.strikeBonus += count;
+    } else {
+      prev.strikeBonus = count;
+    }
   }
 
   if (
